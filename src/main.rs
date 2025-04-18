@@ -1,4 +1,5 @@
 use log::{error, info};
+use std::fmt::{self, Display, Formatter};
 use std::{env, process::exit};
 use thiserror::Error;
 
@@ -21,6 +22,15 @@ pub enum ArgError {
 enum Action {
     Set,
     Unset,
+}
+
+impl Display for Action {
+    fn fmt<'a>(&self, f: &mut Formatter<'a>) -> fmt::Result {
+        match self {
+            Action::Set => write!(f, "set"),
+            Action::Unset => write!(f, "unset"),
+        }
+    }
 }
 
 fn validate_action(action: &str) -> Result<Action, ArgError> {
@@ -114,8 +124,8 @@ fn main() {
         }
     };
 
-    info!("Action: {:?}", action);
-    info!("Domain: {:?}", domain);
-    info!("Challenge DNS: {:?}", challenge_dns);
-    info!("Token: {:?}", token);
+    info!("Action: {}", action);
+    info!("Domain: {}", domain);
+    info!("Challenge DNS: {}", challenge_dns);
+    info!("Token: {}", token);
 }
